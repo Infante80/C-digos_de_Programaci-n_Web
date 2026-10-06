@@ -1,0 +1,47 @@
+.TituloPag {
+    font-size: 40px;
+    text-align: center;
+    color: #8d6c6c;
+    font-family: 'Lucida Calligraphy', cursive ;
+}
+
+.menu {
+    background-color: #f0f0f0;
+    padding: 10px;
+    text-align: center;
+}
+
+.menu a {
+    margin: 0 15px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-decoration: none;
+    color: #8d6c6c;
+    font-family: 'Arial', sans-serif;
+}
+
+.menu a:hover {
+    color: #ff6347;
+    cursor: default;
+}
+
+.imagen-principal {
+    float: left;
+    width: 300px;
+    border-radius: 45px;
+    max-width: 100%;
+    height: auto;
+    margin: 0 30px 20px 0;
+}   
+
+.contenido {
+    text-align: justify;
+    max-width: 1100px;
+    margin-top: 80px;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+
+
