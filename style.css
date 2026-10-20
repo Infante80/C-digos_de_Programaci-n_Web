@@ -62,7 +62,7 @@
 
 /* El cuadro con todo el contenido */
 .ContenedorCotizacion {
-  position: relative;
+ position: relative;
   background: #fff;
   width: 90%;
   max-width: 480px;
