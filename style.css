@@ -43,5 +43,71 @@
     color: #333;
 }
 
+/* Nueva sección */
+/* Fondo oscuro que cubre toda la pantalla (oculto por defecto) */
+#cotizacion {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
 
+/* Cuando JS le agregue la clase "activo", se muestra */
+#cotizacion.activo {
+  display: flex;
+}
 
+/* El cuadro con todo el contenido */
+.ContenedorCotizacion {
+  background: #fff;
+  width: 90%;
+  max-width: 480px;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.ContenedorCotizacion h2 {
+  margin-top: 0;
+}
+
+/* El formulario en columna, con espacio entre campos */
+#formularioCotizacion {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#formularioCotizacion input[type="text"],
+#formularioCotizacion input[type="email"],
+#formularioCotizacion textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+#formularioCotizacion input:focus,
+#formularioCotizacion textarea:focus {
+  outline: none;
+  border-color: #d35400;
+}
+
+#formularioCotizacion input[type="submit"] {
+  margin-top: 10px;
+  padding: 12px;
+  background: #d35400;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+#formularioCotizacion input[type="submit"]:hover {
+  background: #a84300;
+}
