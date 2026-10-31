@@ -120,7 +120,23 @@
         </div>
     </div>
 
-
+<div id="cotizacion" role="dialog" aria-modal="true" aria-labelledby="tCot">
+ <div class="caja">
+  <button class="cerrar" id="cerrarCotizacion" aria-label="Cerrar">&times;</button>
+  <h2 id="tCot">¿Deseas una cotización?</h2>
+  <p>Completa el formulario y nuestro equipo se pondrá en contacto contigo lo antes posible.</p>
+  <form id="formularioCotizacion" novalidate>
+   <label for="nombre">Nombre</label><input type="text" id="nombre" name="nombre" autocomplete="name">
+   <small class="error" id="errorNombre"></small>
+   <label for="email">Correo electrónico</label><input type="email" id="email" name="email" autocomplete="email">
+   <small class="error" id="errorEmail"></small>
+   <label for="mensaje">Mensaje</label><textarea id="mensaje" name="mensaje" rows="4"></textarea>
+   <small class="error" id="errorMensaje"></small>
+   <button class="btn" type="submit">Enviar solicitud</button>
+   <div class="ok" id="ok" role="status">Solicitud enviada. Te contactaremos pronto.</div>
+  </form>
+ </div>
+</div>
     
 </body>
 </html>
