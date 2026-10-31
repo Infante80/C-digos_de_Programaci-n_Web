@@ -1,9 +1,16 @@
+
+/* =========================================
+   HERRERÍA RESIDENCIAL PREMIUM
+   Antracita · Marfil · Oro envejecido
+   ========================================= */
+
 :root {
-  --negro: #142820;
-  --grafito: #263B31;
-  --plata: #F3EFE5;
-  --dorado: #C6A875;
-  --texto-suave: #D0D8CF;
+  --negro: #191A1C;
+  --grafito: #30302F;
+  --plata: #F3EFE6;
+  --dorado: #C2A16A;
+  --texto-suave: #C7C0B5;
+  --borde: rgba(194, 161, 106, .45);
 
   box-sizing: border-box;
   padding-top: env(safe-area-inset-top, 0px);
@@ -40,7 +47,7 @@ h2 {
   font-size: clamp(2rem, 5vw, 3.1rem);
   margin-bottom: 18px;
   padding-left: 18px;
-  border-left: 4px solid var(--dorado);
+  border-left: 3px solid var(--dorado);
 }
 
 a {
@@ -64,8 +71,8 @@ nav {
   position: sticky;
   top: env(safe-area-inset-top, 0px);
   z-index: 20;
-  background: var(--negro);
-  border-bottom: 1px solid rgba(198, 168, 117, .65);
+  background: rgba(25, 26, 28, .97);
+  border-bottom: 1px solid var(--borde);
 }
 
 nav .wrap {
@@ -82,7 +89,7 @@ nav .wrap {
   font-weight: 800;
   font-size: 1.7rem;
   text-transform: uppercase;
-  letter-spacing: .06em;
+  letter-spacing: .07em;
   text-decoration: none;
 }
 
@@ -97,7 +104,7 @@ nav .wrap {
   text-decoration: none;
   font-size: .8rem;
   text-transform: uppercase;
-  letter-spacing: .12em;
+  letter-spacing: .1em;
   opacity: .85;
   transition: color .2s, opacity .2s;
 }
@@ -112,16 +119,16 @@ nav .wrap {
 .btn {
   display: inline-block;
   border: 1px solid var(--dorado);
-  border-radius: 3px;
+  border-radius: 2px;
   background: var(--dorado);
-  color: #142820;
-  font: 700 .9rem 'Archivo', Arial, sans-serif;
+  color: #191A1C;
+  font: 700 .88rem 'Archivo', Arial, sans-serif;
   text-transform: uppercase;
   letter-spacing: .09em;
   padding: 14px 25px;
   cursor: pointer;
   text-decoration: none;
-  box-shadow: 0 5px 16px rgba(0, 0, 0, .16);
+  box-shadow: 0 5px 18px rgba(0, 0, 0, .18);
   transition: transform .2s, background .2s,
     color .2s, box-shadow .2s;
 }
@@ -130,7 +137,7 @@ nav .wrap {
   transform: translateY(-2px);
   background: transparent;
   color: var(--dorado);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, .2);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .22);
 }
 
 .btn.small {
@@ -142,15 +149,15 @@ nav .wrap {
 /* PORTADA */
 
 .hero {
-  background:
-    radial-gradient(
-      ellipse at 85% 20%,
-      rgba(198, 168, 117, .10),
-      transparent 42%
-    ),
-    var(--grafito);
-  padding: 76px 0 84px;
-  border-bottom: 1px solid rgba(198, 168, 117, .6);
+  background-color: #121416; /* respaldo mientras carga la foto */
+  background-image:
+    linear-gradient(90deg, rgba(18,20,22,.92) 0%, rgba(18,20,22,.75) 55%, rgba(18,20,22,.5) 100%),
+    url("img/fondo-hero.jpg");
+  background-size: cover;
+  background-position: center 35%;
+  background-repeat: no-repeat;
+  padding: 78px 0 86px;
+  border-bottom: 1px solid var(--borde);
 }
 
 .hero .wrap {
@@ -183,11 +190,11 @@ nav .wrap {
 }
 
 .hero .btn {
-  box-shadow: 0 6px 18px rgba(0, 0, 0, .22);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .25);
 }
 
 .hero .btn:hover {
-  box-shadow: 0 8px 22px rgba(0, 0, 0, .3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .3);
 }
 
 /* ESPACIOS PARA IMÁGENES */
@@ -214,7 +221,7 @@ nav .wrap {
   position: relative;
   aspect-ratio: 4 / 3;
   border: 1px solid var(--dorado);
-  box-shadow: 12px 12px 0 rgba(20, 40, 32, .9);
+  box-shadow: 10px 10px 0 rgba(0, 0, 0, .25);
   overflow: hidden;
 }
 
@@ -253,15 +260,17 @@ section {
   letter-spacing: .08em;
   background: transparent;
   color: var(--plata);
-  border: 1px solid rgba(198, 168, 117, .65);
-  border-radius: 3px;
+  border: 1px solid var(--borde);
+  border-radius: 2px;
   padding: 11px 17px;
   cursor: pointer;
-  transition: background .2s, color .2s;
+  transition: background .2s, color .2s,
+    border-color .2s;
 }
 
 .filtros button:hover {
   background: var(--grafito);
+  border-color: var(--dorado);
 }
 
 .filtros button[aria-pressed="true"] {
@@ -281,7 +290,7 @@ section {
   position: relative;
   margin: 0;
   background: var(--grafito);
-  border: 1px solid rgba(198, 168, 117, .2);
+  border: 1px solid rgba(243, 239, 230, .12);
   overflow: hidden;
   transition: border-color .25s;
 }
@@ -304,7 +313,7 @@ section {
 }
 
 .pieza img {
-  filter: saturate(.75) contrast(1.03);
+  filter: saturate(.82) contrast(1.05);
   transition: filter .35s, transform .5s;
 }
 
@@ -319,11 +328,11 @@ section {
   right: 0;
   bottom: 0;
   padding: 12px 15px;
-  background: rgba(20, 40, 32, .94);
+  background: rgba(25, 26, 28, .95);
   color: var(--plata);
   font-size: .78rem;
   text-transform: uppercase;
-  letter-spacing: .09em;
+  letter-spacing: .08em;
   border-top: 1px solid var(--dorado);
 }
 
@@ -331,7 +340,7 @@ section {
 
 .nosotros {
   background: var(--grafito);
-  border-top: 1px solid rgba(198, 168, 117, .55);
+  border-top: 1px solid var(--borde);
 }
 
 .dos {
@@ -349,7 +358,7 @@ section {
 
 .servicios li {
   padding: 16px 10px;
-  border-bottom: 1px solid rgba(243, 239, 229, .2);
+  border-bottom: 1px solid rgba(243, 239, 230, .16);
   display: flex;
   justify-content: space-between;
   gap: 16px;
@@ -357,7 +366,7 @@ section {
 }
 
 .servicios li:hover {
-  background: rgba(20, 40, 32, .7);
+  background: rgba(25, 26, 28, .65);
 }
 
 .servicios span {
@@ -369,7 +378,7 @@ section {
   margin-top: 64px;
 }
 
-/* PROCESO */
+/* PROCESO DE TRABAJO */
 
 .proceso {
   display: grid;
@@ -384,14 +393,15 @@ section {
 .proceso li {
   counter-increment: p;
   padding: 24px 20px;
-  background: var(--negro);
-  border: 1px solid rgba(198, 168, 117, .65);
-  transition: transform .2s, background .2s;
+  background: var(--grafito);
+  border: 1px solid var(--borde);
+  box-shadow: 0 5px 18px rgba(0, 0, 0, .12);
+  transition: transform .2s, border-color .2s;
 }
 
 .proceso li:hover {
-  transform: translateY(-4px);
-  background: #1B3227;
+  transform: translateY(-3px);
+  border-color: var(--dorado);
 }
 
 .proceso li::before {
@@ -415,12 +425,12 @@ section {
   color: var(--texto-suave);
 }
 
-/* CIERRE Y PIE */
+/* CIERRE Y PIE DE PÁGINA */
 
 .cierre {
   background: var(--negro);
   text-align: center;
-  border-top: 1px solid rgba(198, 168, 117, .55);
+  border-top: 1px solid var(--borde);
 }
 
 .cierre h2 {
@@ -435,13 +445,13 @@ section {
 }
 
 footer {
-  background: var(--grafito);
+  background: #151618;
   text-align: center;
   padding: 28px 20px;
   font-size: .78rem;
   text-transform: uppercase;
   letter-spacing: .1em;
-  border-top: 1px solid var(--dorado);
+  border-top: 1px solid var(--borde);
   color: var(--texto-suave);
 }
 
@@ -451,7 +461,7 @@ footer {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(5, 12, 8, .84);
+  background: rgba(0, 0, 0, .82);
   justify-content: center;
   align-items: center;
   z-index: 100;
@@ -472,7 +482,7 @@ footer {
   overflow: auto;
   padding: 32px;
   border: 1px solid var(--dorado);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, .35);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .4);
 }
 
 .caja h2 {
@@ -509,8 +519,8 @@ input[type="text"],
 input[type="email"],
 textarea {
   padding: 12px;
-  border: 1px solid rgba(198, 168, 117, .8);
-  border-radius: 3px;
+  border: 1px solid #77756F;
+  border-radius: 2px;
   font: inherit;
   background: var(--negro);
   color: var(--plata);
@@ -546,7 +556,7 @@ textarea:focus {
   margin-top: 10px;
 }
 
-/* DISEÑO RESPONSIVE */
+/* ADAPTACIÓN A MÓVILES */
 
 @media (max-width: 760px) {
   .hero .wrap,
@@ -559,7 +569,7 @@ textarea:focus {
   }
 
   .hero-img {
-    box-shadow: 8px 8px 0 rgba(20, 40, 32, .9);
+    box-shadow: 7px 7px 0 rgba(0, 0, 0, .25);
   }
 
   .galeria {
@@ -578,7 +588,17 @@ textarea:focus {
   section {
     padding: 60px 0;
   }
+
+  nav .wrap {
+    min-height: 64px;
+  }
+
+  .caja {
+    padding: 28px 22px;
+  }
 }
+
+/* ACCESIBILIDAD: MOVIMIENTO REDUCIDO */
 
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -589,7 +609,8 @@ textarea:focus {
   .pieza img,
   .pieza,
   .proceso li,
-  .links a {
+  .links a,
+  .filtros button {
     transition: none;
   }
 }
