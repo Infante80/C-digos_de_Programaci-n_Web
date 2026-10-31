@@ -120,3 +120,11 @@
   font-size: 2rem;
   cursor: pointer;
 }
+
+.error-mensaje {
+  color: #d9534f;
+  font-size: 0.85rem;
+  margin-top: -4px;
+  margin-bottom: 4px;
+  display: block;
+}
