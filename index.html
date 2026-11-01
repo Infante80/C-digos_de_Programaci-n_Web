@@ -14,15 +14,15 @@
 
     <nav>
         <div class="wrap">
-        <a class="logo" href="#inicio">Herreria Hernández</a>
-        <div class="links">
-        <a href="#inicio">Inicio</a>
-        <a href="#trabajo">Nuestro Trabajo</a>
-        <a href="#nosotros">Sobre Nosotros</a>
-        <a href="https://maps.app.goo.gl/me2ipRE5smqY51zy6?g_st=aw" target="_blank" rel="noopener">Ubicación</a>
-        <button class="btn small" data-abrir>Pedir Cotización</button>
+            <a class="logo" href="#inicio">Herreria Hernández</a>
+            <div class="links">
+                <a href="#inicio">Inicio</a>
+                <a href="#trabajo">Nuestro Trabajo</a>
+                <a href="#nosotros">Sobre Nosotros</a>
+                <a href="https://maps.app.goo.gl/me2ipRE5smqY51zy6?g_st=aw" target="_blank" rel="noopener">Ubicación</a>
+                <button class="btn small" data-abrir>Pedir Cotización</button>
+            </div>
         </div>
-    </div>
     </nav>
 
     <header class="hero" id="inicio">
@@ -31,49 +31,48 @@
             <p>Puertas, Portones, Estructuras, Escaleras, Rejas, Barandales. Cada pieza es una obra de arte hecha a medida.</p>
             <button class="btn" data-abrir>Pedir Cotización</button>
         </div>
-    <div class="hero-img">
-        <img src="img/imgFondoPP.jpg" alt="Imagen de herrería">
-    </div>
     </header>
-
 
     <section id="trabajo">
         <div class="wrap">
             <h2>Nuestro Trabajo</h2>
             <p>Aqui nuestros trabajos realizados con el más alto estándar de calidad y atención al detalle. Filtra por tipo de trabajo.</p>
             <div class="filtros" role="group" aria-label="Filtros de trabajo">
-                <button aria-pressed="true" data-filtro="todos">Todos</button>
-                <button data-filtro="puertas">Puertas</button>
-                <button data-filtro="portones">Portones</button>
-                <button data-filtro="estructuras">Estructuras</button>
-                <button data-filtro="escaleras">Escaleras</button>
+                <button aria-pressed="true" data-f="todo">Todos</button>
+                <button aria-pressed="false" data-f="escaleras">Escaleras</button>
+                <button aria-pressed="false" data-f="rejas">Rejas</button>
+                <button aria-pressed="false" data-f="estructuras">Estructuras</button>
+                <button aria-pressed="false" data-f="barandales">Barandales</button>
             </div>
             <div class="galeria" id="galeria">
-                <figure class="pieza grande" data-c="Escaleras"><img src="img/img3.jpeg" alt="Escalera de herrería"><figcaption>Escalera de herrería</figcaption></figure>
-                <figure class="pieza" data-c="Rejas"><img src="img/img2.jpeg" alt="Reja de herrería"><figcaption>Reja de herrería</figcaption></figure>
-                <figure class="pieza" data-c="Estructuras"><img src="img/img1.jpeg" alt="Estructura de herrería"><figcaption>Estructura de herrería</figcaption></figure>
-                <figure class="pieza" data-c="Barandales"><img src="img/img4.jpeg" alt="Barandal de herrería"><figcaption>Barandal de herrería</figcaption></figure>
+                <figure class="pieza grande" data-c="escaleras"><img src="img/img3.jpeg" alt="Escalera de herrería"><figcaption>Escalera de herrería</figcaption></figure>
+                <figure class="pieza" data-c="rejas"><img src="img/img2.jpeg" alt="Reja de herrería"><figcaption>Reja de herrería</figcaption></figure>
+                <figure class="pieza" data-c="estructuras"><img src="img/img1.jpeg" alt="Estructura de herrería"><figcaption>Estructura de herrería</figcaption></figure>
+                <figure class="pieza" data-c="barandales"><img src="img/img4.jpeg" alt="Barandal de herrería"><figcaption>Barandal de herrería</figcaption></figure>
+            </div>
         </div>
     </section>
 
     <section class="nosotros" id="nosotros">
-        <div class="wrap">
-            <h2>Sobre Nosotros</h2>
-            <p class="lead">En Herrería Hernández, nos enorgullece ofrecer servicios de herrería de alta calidad y atención al detalle. Con años de experiencia en el ambito nosotros nos dedicamos a crear piezas únicas y personalizadas que cumplen con los más altos estándares de calidad.</p>
-            <p>Desde puertas y portones hasta estructuras y barandales, cada proyecto es una oportunidad para demostrar nuestra pasión por la herrería y nuestro compromiso con la satisfacción del cliente. Nos aseguramos de trabajar estrechamente con nuestros clientes para entender sus necesidades y ofrecer soluciones que superen sus expectativas.</p>
-            <p>Confía en Herrería Hernández para transformar tus ideas en realidad. Contáctanos hoy mismo para obtener una cotización personalizada y descubre cómo podemos ayudarte a llevar tu proyecto de herrería al siguiente nivel.</p>
+        <div class="wrap dos">
+            <div>
+                <h2>Sobre Nosotros</h2>
+                <p class="lead">En Herrería Hernández, nos enorgullece ofrecer servicios de herrería de alta calidad y atención al detalle. Con años de experiencia en el ambito nosotros nos dedicamos a crear piezas únicas y personalizadas que cumplen con los más altos estándares de calidad.</p>
+                <p>Desde puertas y portones hasta estructuras y barandales, cada proyecto es una oportunidad para demostrar nuestra pasión por la herrería y nuestro compromiso con la satisfacción del cliente. Nos aseguramos de trabajar estrechamente con nuestros clientes para entender sus necesidades y ofrecer soluciones que superen sus expectativas.</p>
+                <p>Confía en Herrería Hernández para transformar tus ideas en realidad. Contáctanos hoy mismo para obtener una cotización personalizada y descubre cómo podemos ayudarte a llevar tu proyecto de herrería al siguiente nivel.</p>
+            </div>
+            <div>
+                <h2>Que hacemos?</h2>
+                <ul class="servicios">
+                    <li><b>Rejas y Protecciones</b><span>Ventanas, puertas</span></li>
+                    <li><b>Portones</b><span>abatibles y corredizos</span></li>
+                    <li><b>Estructuras</b><span>de herrería</span></li>
+                    <li><b>Barandales</b><span>Interior o Exterior</span></li>
+                    <li><b>Puertas</b><span>de herrería</span></li>
+                </ul>
+            </div>
         </div>
 
-        <h2>Que hacemos?</h2>
-        <ul class="servicios">
-            <li><b>Rejas y Protecciones</b><span>Ventanas, puertas</span></li>
-            <li><b>Portones</b><span>abatibles y corredizos</span></li>
-            <li><b>Estructuras</b><span>de herrería</span></li>
-            <li><b>Barandales</b><span>Interior o Exterior</span></li>
-            <li><b>Puertas</b><span>de herrería</span></li>
-        </ul>
-    </div>
-</div>
         <div class="wrap">
             <h2 class="sep">Como Trabajamos</h2>
             <ol class="proceso">
@@ -95,47 +94,30 @@
 
     <footer>Herrería Hernández · <a href="https://maps.app.goo.gl/me2ipRE5smqY51zy6?g_st=aw" target="_blank" rel="noopener">Ver ubicación en el mapa</a></footer>
 
-    <div id="cotizacion">
-        <div class="ContenedorCotizacion">
-            <span id="cerrarCotizacion" class="cerrarCotizacion">&times;</span>
-            <h2>¿Deseas una cotización?</h2>
-            <p>Si estás interesado en nuestros servicios y deseas obtener una cotización personalizada, por favor completa el siguiente formulario. Nuestro equipo se pondrá en contacto contigo lo antes posible.</p>
-            
+    <div id="cotizacion" role="dialog" aria-modal="true" aria-labelledby="tCot">
+        <div class="caja">
+            <button class="cerrar" id="cerrarCotizacion" aria-label="Cerrar">&times;</button>
+            <h2 id="tCot">¿Deseas una cotización?</h2>
+            <p>Completa el formulario y nuestro equipo se pondrá en contacto contigo lo antes posible.</p>
             <form id="formularioCotizacion" novalidate>
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre">
-                <small class="error-mensaje" id="errorNombre"></small>
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" name="nombre" autocomplete="name">
+                <small class="error" id="errorNombre"></small>
 
-                <label for="email">Correo electrónico:</label>
-                <input type="email" id="email" name="email">
-                <small class="error-mensaje" id="errorEmail"></small>
-                
-                <label for="mensaje">Mensaje:</label>
+                <label for="email">Correo electrónico</label>
+                <input type="email" id="email" name="email" autocomplete="email">
+                <small class="error" id="errorEmail"></small>
+
+                <label for="mensaje">Mensaje</label>
                 <textarea id="mensaje" name="mensaje" rows="4"></textarea>
-                <small class="error-mensaje" id="errorMensaje"></small>
+                <small class="error" id="errorMensaje"></small>
 
-                <input type="submit" value="Enviar">
+                <button class="btn" type="submit">Enviar solicitud</button>
+                <div class="ok" id="ok" role="status">Solicitud enviada. Te contactaremos pronto.</div>
             </form>
         </div>
     </div>
 
-<div id="cotizacion" role="dialog" aria-modal="true" aria-labelledby="tCot">
- <div class="caja">
-  <button class="cerrar" id="cerrarCotizacion" aria-label="Cerrar">&times;</button>
-  <h2 id="tCot">¿Deseas una cotización?</h2>
-  <p>Completa el formulario y nuestro equipo se pondrá en contacto contigo lo antes posible.</p>
-  <form id="formularioCotizacion" novalidate>
-   <label for="nombre">Nombre</label><input type="text" id="nombre" name="nombre" autocomplete="name">
-   <small class="error" id="errorNombre"></small>
-   <label for="email">Correo electrónico</label><input type="email" id="email" name="email" autocomplete="email">
-   <small class="error" id="errorEmail"></small>
-   <label for="mensaje">Mensaje</label><textarea id="mensaje" name="mensaje" rows="4"></textarea>
-   <small class="error" id="errorMensaje"></small>
-   <button class="btn" type="submit">Enviar solicitud</button>
-   <div class="ok" id="ok" role="status">Solicitud enviada. Te contactaremos pronto.</div>
-  </form>
- </div>
-</div>
-<script src="script.js"></script> 
+    <script src="script.js"></script>
 </body>
 </html>
