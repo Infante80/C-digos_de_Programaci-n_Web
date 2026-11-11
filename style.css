@@ -615,3 +615,31 @@ textarea:focus {
     transition: none;
   }
 }
+
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  background: none;
+  border: 1px solid var(--borde);
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--plata);
+  transition: transform .25s, opacity .25s;
+}
+
+/* Las 3 rayas se vuelven una X al abrir */
+.menu-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.menu-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
