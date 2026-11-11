@@ -582,9 +582,26 @@ textarea:focus {
     grid-template-columns: 1fr 1fr;
   }
 
-  .links a:not(.btn) {
-    display: none;
-  }
+  .menu-toggle { display: flex; }
+
+.links {
+  display: none;
+  width: 100%;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  padding-bottom: 16px;
+}
+
+.links.abierto { display: flex; }
+
+.links a {
+  padding: 14px 4px;
+  border-top: 1px solid var(--borde);
+  font-size: .9rem;
+}
+
+.links .btn { margin-top: 12px; text-align: center; }
 
   section {
     padding: 60px 0;
