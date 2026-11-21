@@ -1,5 +1,6 @@
 const modal=document.getElementById("cotizacion"),form=document.getElementById("formularioCotizacion"),ok=document.getElementById("ok");
-function abrirModal(){modal.classList.add("activo");ok.style.display="none";document.getElementById("nombre").focus()}
+const caja=modal.querySelector(".caja");
+function abrirModal(){modal.classList.add("activo");caja.classList.remove("enviado");caja.style.minHeight="";ok.style.display="none";document.getElementById("nombre").focus()}
 function cerrarModal(){modal.classList.remove("activo")}
 document.querySelectorAll("[data-abrir]").forEach(b=>b.addEventListener("click",abrirModal));
 document.getElementById("cerrarCotizacion").addEventListener("click",cerrarModal);
@@ -37,9 +38,11 @@ form.addEventListener("submit", async e => {
     const datos = await resp.json();
     if (resp.ok && datos.ok) {
       form.reset();
-      ok.textContent = "Solicitud enviada. Te contactaremos pronto.";
-      ok.style.display = "block";
-      setTimeout(cerrarModal, 1800);
+      ok.style.display = "none";
+      caja.style.minHeight = caja.offsetHeight + "px";
+      caja.scrollTop = 0;
+      caja.classList.add("enviado");
+      setTimeout(cerrarModal, 3000);
     } else if (datos.errores) {
       Object.keys(datos.errores).forEach(c => mostrarError(ids[c], datos.errores[c]));
     } else {
