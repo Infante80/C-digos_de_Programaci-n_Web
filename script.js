@@ -23,10 +23,34 @@ const reglas={
 const ids={nombre:"errorNombre",email:"errorEmail",mensaje:"errorMensaje"};
 function validar(c){return mostrarError(ids[c],reglas[c](document.getElementById(c).value.trim()))}
 Object.keys(reglas).forEach(c=>document.getElementById(c).addEventListener("blur",()=>validar(c)));
-form.addEventListener("submit",e=>{
+
+// Envío del formulario al servidor
+form.addEventListener("submit", async e => {
   e.preventDefault();
-  const valido=Object.keys(reglas).map(validar).every(Boolean);
-  if(valido){form.reset();ok.style.display="block";setTimeout(cerrarModal,1800)}
+  const valido = Object.keys(reglas).map(validar).every(Boolean);
+  if (!valido) return;
+
+  const boton = form.querySelector('button[type="submit"]');
+  boton.disabled = true;
+  try {
+    const resp = await fetch("guardar.php", { method: "POST", body: new FormData(form) });
+    const datos = await resp.json();
+    if (resp.ok && datos.ok) {
+      form.reset();
+      ok.textContent = "Solicitud enviada. Te contactaremos pronto.";
+      ok.style.display = "block";
+      setTimeout(cerrarModal, 1800);
+    } else if (datos.errores) {
+      Object.keys(datos.errores).forEach(c => mostrarError(ids[c], datos.errores[c]));
+    } else {
+      throw new Error("Error del servidor");
+    }
+  } catch {
+    ok.textContent = "No se pudo enviar la solicitud. Inténtalo de nuevo más tarde.";
+    ok.style.display = "block";
+  } finally {
+    boton.disabled = false;
+  }
 });
 
 // Menú hamburguesa
