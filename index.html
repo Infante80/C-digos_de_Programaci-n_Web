@@ -48,10 +48,19 @@
                 <button aria-pressed="false" data-f="barandales">Barandales</button>
             </div>
             <div class="galeria" id="galeria">
-                <figure class="pieza grande" data-c="escaleras"><img src="img/img3.jpeg" alt="Escalera de herrería"><figcaption>Escalera de herrería</figcaption></figure>
-                <figure class="pieza" data-c="rejas"><img src="img/img2.jpeg" alt="Reja de herrería"><figcaption>Reja de herrería</figcaption></figure>
-                <figure class="pieza" data-c="estructuras"><img src="img/img1.jpeg" alt="Estructura de herrería"><figcaption>Estructura de herrería</figcaption></figure>
-                <figure class="pieza" data-c="barandales"><img src="img/img4.jpeg" alt="Barandal de herrería"><figcaption>Barandal de herrería</figcaption></figure>
+                <figure class="pieza grande" data-c="escaleras"><img src="img/img3.jpeg" alt="Escalera de herrería" loading="lazy" decoding="async"><figcaption>Escalera de herrería</figcaption></figure>
+                <figure class="pieza" data-c="rejas"><img src="img/img2.jpeg" alt="Reja de herrería" loading="lazy" decoding="async"><figcaption>Reja de herrería</figcaption></figure>
+                <figure class="pieza" data-c="estructuras"><img src="img/img1.jpeg" alt="Estructura de herrería" loading="lazy" decoding="async"><figcaption>Estructura de herrería</figcaption></figure>
+                <figure class="pieza" data-c="barandales"><img src="img/img4.jpeg" alt="Barandal de herrería" loading="lazy" decoding="async"><figcaption>Barandal de herrería</figcaption></figure>
+                <figure class="pieza ancha" data-c="barandales"><img src="img/Barandal2.jpeg" alt="Barandal curvo forjado con espirales en terraza" loading="lazy" decoding="async"><figcaption>Barandal curvo con espirales</figcaption></figure>
+                <figure class="pieza alta" data-c="escaleras"><img src="img/Escalera3.jpeg" alt="Escalera de caracol exterior de herrería" loading="lazy" decoding="async"><figcaption>Escalera de caracol exterior</figcaption></figure>
+                <figure class="pieza alta" data-c="estructuras"><img src="img/Estructura3.jpeg" alt="Estructura metálica de techo a dos aguas" loading="lazy" decoding="async"><figcaption>Estructura a dos aguas</figcaption></figure>
+                <figure class="pieza ancha" data-c="rejas"><img src="img/Reja2.jpeg" alt="Reja perimetral sobre muro de piedra" loading="lazy" decoding="async"><figcaption>Reja sobre muro de piedra</figcaption></figure>
+                <figure class="pieza ancha" data-c="barandales"><img src="img/Barandal3.jpeg" alt="Barandal forjado con espirales en terraza con vista al jardín" loading="lazy" decoding="async"><figcaption>Barandal de terraza</figcaption></figure>
+                <figure class="pieza alta" data-c="estructuras"><img src="img/Estructura4.jpeg" alt="Armado de estructura metálica tipo A en obra" loading="lazy" decoding="async"><figcaption>Armado de estructura tipo A</figcaption></figure>
+                <figure class="pieza alta" data-c="escaleras"><img src="img/Escalera2.jpeg" alt="Escalera de caracol interior de herrería" loading="lazy" decoding="async"><figcaption>Escalera de caracol interior</figcaption></figure>
+                <figure class="pieza ancha" data-c="rejas"><img src="img/Reja3.jpeg" alt="Reja de lanzas sobre muro de piedra" loading="lazy" decoding="async"><figcaption>Reja de lanzas</figcaption></figure>
+                <figure class="pieza" data-c="estructuras"><img src="img/Estructura2.jpeg" alt="Estructura techada con teja y cerco de herrería" loading="lazy" decoding="async"><figcaption>Estructura techada con teja</figcaption></figure>
             </div>
         </div>
     </section>
@@ -128,6 +137,30 @@
             </div>
         </div>
     </div>
+
+    <dialog class="visor" id="visor" aria-label="Galería de imágenes">
+        <div class="visor-fondo" aria-hidden="true"></div>
+        <div class="visor-top visor-ui">
+            <div class="visor-info">
+                <span class="visor-categoria" id="visorCategoria"></span>
+                <span class="visor-contador" id="visorContador"></span>
+            </div>
+            <button class="visor-btn visor-cerrar" id="visorCerrar" aria-label="Cerrar galería">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+            </button>
+        </div>
+        <div class="visor-escena" id="visorEscena">
+            <img class="visor-img" id="visorImg" alt="" draggable="false">
+            <button class="visor-btn visor-nav visor-ui prev" id="visorPrev" aria-label="Imagen anterior">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+            </button>
+            <button class="visor-btn visor-nav visor-ui next" id="visorNext" aria-label="Imagen siguiente">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+            </button>
+        </div>
+        <p class="visor-pie visor-ui" id="visorPie" aria-live="polite"></p>
+        <div class="visor-miniaturas visor-ui" id="visorMiniaturas" role="group" aria-label="Miniaturas"></div>
+    </dialog>
 
     <script src="script.js"></script>
 </body>

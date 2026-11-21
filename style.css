@@ -11,6 +11,7 @@
   --dorado: #C2A16A;
   --texto-suave: #C7C0B5;
   --borde: rgba(194, 161, 106, .45);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 
   box-sizing: border-box;
   padding-top: env(safe-area-inset-top, 0px);
@@ -24,6 +25,8 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 76px;
+  /* Evita que la página "brinque" al ocultar la barra de scroll con el visor abierto */
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -311,6 +314,7 @@ section {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-auto-rows: 160px;
+  grid-auto-flow: dense;
   gap: 14px;
 }
 
@@ -320,11 +324,8 @@ section {
   background: var(--grafito);
   border: 1px solid rgba(243, 239, 230, .12);
   overflow: hidden;
+  cursor: zoom-in;
   transition: border-color .25s;
-}
-
-.pieza:hover {
-  border-color: var(--dorado);
 }
 
 .pieza.grande {
@@ -336,6 +337,10 @@ section {
   grid-column: span 2;
 }
 
+.pieza.alta {
+  grid-row: span 2;
+}
+
 .pieza.oculta {
   display: none;
 }
@@ -345,9 +350,47 @@ section {
   transition: filter .35s, transform .5s;
 }
 
-.pieza:hover img {
-  filter: saturate(1);
-  transform: scale(1.04);
+/* Mientras la foto está "fuera" (en el visor) su hueco queda vacío */
+.pieza.en-visor img {
+  visibility: hidden;
+}
+
+/* Icono de lupa: indica que la foto se puede ampliar */
+.pieza::after {
+  content: "";
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--dorado);
+  background: rgba(25, 26, 28, .85) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C2A16A' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6'/%3E%3Cpath d='M15 15l5 5M10.5 8v5M8 10.5h5'/%3E%3C/svg%3E") center / 20px no-repeat;
+  opacity: 0;
+  transform: scale(.9);
+  transition: opacity .2s var(--ease-out), transform .2s var(--ease-out);
+  pointer-events: none;
+}
+
+.pieza:focus-visible::after {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hover solo en dispositivos con puntero real (en táctil el hover se queda "pegado") */
+@media (hover: hover) and (pointer: fine) {
+  .pieza:hover {
+    border-color: var(--dorado);
+  }
+
+  .pieza:hover img {
+    filter: saturate(1);
+    transform: scale(1.04);
+  }
+
+  .pieza:hover::after {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .pieza figcaption {
@@ -714,6 +757,247 @@ textarea:focus {
   to { opacity: 1; transform: scale(1); }
 }
 
+/* VISOR DE GALERÍA (LIGHTBOX) */
+
+html.visor-abierto {
+  overflow: hidden;
+}
+
+.visor {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px)
+    env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+  border: 0;
+  background: transparent;
+  color: var(--plata);
+  overflow: hidden;
+}
+
+.visor[open] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+}
+
+.visor::backdrop {
+  background: transparent;
+}
+
+.visor-fondo {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: rgba(14, 15, 16, .96);
+  opacity: 0;
+  transition: opacity .3s var(--ease-out);
+}
+
+/* Controles: aparecen un instante después de la foto */
+.visor-ui {
+  opacity: 0;
+  transition: opacity .25s var(--ease-out);
+}
+
+.visor.activo .visor-fondo,
+.visor.activo .visor-ui {
+  opacity: 1;
+}
+
+.visor.activo .visor-ui {
+  transition-delay: .12s;
+}
+
+.visor-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 20px;
+}
+
+.visor-info {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+
+.visor-categoria {
+  font-family: 'Big Shoulders Display', Impact, sans-serif;
+  font-weight: 800;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--dorado);
+}
+
+.visor-contador {
+  font-size: .8rem;
+  letter-spacing: .12em;
+  color: var(--texto-suave);
+  font-variant-numeric: tabular-nums;
+}
+
+.visor-escena {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  padding: 8px 88px;
+  touch-action: none;
+}
+
+.visor-img {
+  display: block;
+  max-width: none;
+  border: 1px solid rgba(243, 239, 230, .12);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, .5);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.visor-btn {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  background: rgba(25, 26, 28, .75);
+  color: var(--plata);
+  border: 1px solid var(--borde);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background-color .2s ease, color .2s ease,
+    border-color .2s ease, transform .14s var(--ease-out);
+}
+
+.visor-btn svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.visor-btn:active {
+  transform: scale(.94);
+}
+
+.visor-nav {
+  position: absolute;
+  top: 50%;
+  margin-top: -26px;
+  width: 52px;
+  height: 52px;
+}
+
+.visor-nav.prev { left: 20px; }
+.visor-nav.next { right: 20px; }
+
+.visor-pie {
+  margin: 0;
+  padding: 12px 20px 0;
+  text-align: center;
+  font-size: .82rem;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+
+.visor-miniaturas {
+  position: relative;
+  display: flex;
+  gap: 8px;
+  padding: 14px 20px 18px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.visor-miniaturas::-webkit-scrollbar {
+  display: none;
+}
+
+/* Centra la tira cuando cabe; si no cabe, se desplaza sin cortar la primera */
+.visor-miniaturas > :first-child { margin-left: auto; }
+.visor-miniaturas > :last-child { margin-right: auto; }
+
+.visor-miniaturas button {
+  flex: none;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border: 1px solid transparent;
+  background: var(--grafito);
+  opacity: .45;
+  cursor: pointer;
+  overflow: hidden;
+  transition: opacity .2s ease, border-color .2s ease;
+}
+
+.visor-miniaturas button[aria-current="true"] {
+  opacity: 1;
+  border-color: var(--dorado);
+}
+
+.visor-miniaturas img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .visor-btn:hover {
+    background: var(--dorado);
+    border-color: var(--dorado);
+    color: var(--negro);
+  }
+
+  .visor-miniaturas button:hover {
+    opacity: .85;
+  }
+}
+
+@media (max-width: 760px) {
+  .visor-escena {
+    padding: 4px 0;
+  }
+
+  .visor-img {
+    border-left: 0;
+    border-right: 0;
+  }
+
+  .visor-nav {
+    width: 44px;
+    height: 44px;
+    margin-top: -22px;
+    background: rgba(25, 26, 28, .55);
+  }
+
+  .visor-nav.prev { left: 8px; }
+  .visor-nav.next { right: 8px; }
+
+  .visor-top {
+    padding: 10px 12px 10px 16px;
+  }
+
+  .visor-miniaturas {
+    padding: 12px 16px 16px;
+  }
+
+  .visor-miniaturas button {
+    width: 52px;
+    height: 52px;
+  }
+}
+
 /* ACCESIBILIDAD: MOVIMIENTO REDUCIDO */
 
 @media (prefers-reduced-motion: reduce) {
@@ -731,6 +1015,8 @@ textarea:focus {
   .btn,
   .pieza img,
   .pieza,
+  .pieza::after,
+  .visor-btn,
   .proceso li,
   .links a,
   .filtros button {
