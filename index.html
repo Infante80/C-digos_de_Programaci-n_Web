@@ -113,15 +113,15 @@
             <p>Completa el formulario y nuestro equipo se pondrá en contacto contigo lo antes posible.</p>
             <form id="formularioCotizacion" novalidate>
                 <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" name="nombre" autocomplete="name">
+                <input type="text" id="nombre" name="nombre" autocomplete="name" placeholder="Ej. Juan Pérez">
                 <small class="error" id="errorNombre"></small>
 
                 <label for="email">Correo electrónico</label>
-                <input type="email" id="email" name="email" autocomplete="email">
+                <input type="email" id="email" name="email" autocomplete="email" placeholder="Ej. juanperez@correo.com">
                 <small class="error" id="errorEmail"></small>
 
                 <label for="mensaje">Mensaje</label>
-                <textarea id="mensaje" name="mensaje" rows="4"></textarea>
+                <textarea id="mensaje" name="mensaje" rows="4" placeholder="Ej. Necesito un barandal de 3 metros para escalera interior."></textarea>
                 <small class="error" id="errorMensaje"></small>
 
                 <button class="btn" type="submit">Enviar solicitud</button>

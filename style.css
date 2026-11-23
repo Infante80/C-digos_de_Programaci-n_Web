@@ -597,6 +597,12 @@ textarea {
   color: var(--plata);
 }
 
+input::placeholder,
+textarea::placeholder {
+  color: #8A8880;
+  opacity: 1;
+}
+
 input:focus,
 textarea:focus {
   outline: 2px solid var(--dorado);
