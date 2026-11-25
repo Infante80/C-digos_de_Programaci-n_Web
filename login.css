@@ -1,0 +1,494 @@
+/* =========================================
+   ACCESO (login / registro)
+   Usa los tokens de style.css
+   ========================================= */
+
+.acceso {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* ESCENA (lado izquierdo con foto) */
+
+.acceso-escena {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 36px 48px 56px;
+  background-color: #121416;
+  background-image:
+    linear-gradient(180deg, rgba(18,20,22,.55) 0%, rgba(18,20,22,.35) 40%, rgba(18,20,22,.94) 100%),
+    url("img/imgFondoPP.jpg");
+  background-size: cover;
+  background-position: center 35%;
+  border-right: 1px solid var(--borde);
+  overflow: hidden;
+}
+
+.acceso-escena .logo {
+  align-self: flex-start;
+}
+
+.acceso-lema {
+  max-width: 440px;
+}
+
+.acceso-linea {
+  display: block;
+  width: 56px;
+  height: 3px;
+  margin-bottom: 22px;
+  background: var(--dorado);
+}
+
+.acceso-titulo {
+  margin: 0 0 14px;
+  font-family: 'Big Shoulders Display', 'Arial Narrow', Impact, sans-serif;
+  font-weight: 900;
+  font-size: clamp(3rem, 6vw, 5rem);
+  line-height: .92;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+
+.acceso-titulo span {
+  display: block;
+  color: var(--dorado);
+}
+
+.acceso-texto {
+  margin: 0;
+  color: var(--texto-suave);
+  max-width: 34ch;
+}
+
+/* PANEL (lado derecho con formulario) */
+
+.acceso-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 88px 32px 56px;
+  background:
+    radial-gradient(120% 60% at 100% 0%, rgba(194,161,106,.07), transparent 60%),
+    var(--negro);
+}
+
+.volver {
+  position: absolute;
+  top: 28px;
+  left: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  text-decoration: none;
+  color: var(--texto-suave);
+  transition: color .2s;
+}
+
+.volver svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.acceso-caja {
+  width: 100%;
+  max-width: 400px;
+  animation: acceso-entrada .5s var(--ease-out) both;
+}
+
+@keyframes acceso-entrada {
+  from { opacity: 0; transform: translateY(10px); }
+}
+
+.acceso-eyebrow {
+  margin: 0 0 10px;
+  font-size: .72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .18em;
+  color: var(--dorado);
+}
+
+.acceso-caja h1 {
+  font-size: clamp(2.3rem, 4vw, 2.9rem);
+}
+
+.acceso-sub {
+  margin: 8px 0 28px;
+  color: var(--texto-suave);
+  font-size: .95rem;
+}
+
+/* PESTAÑAS con indicador que se desliza */
+
+.pestanas {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 4px;
+  margin-bottom: 22px;
+  border: 1px solid var(--borde);
+  border-radius: 2px;
+  background: rgba(0, 0, 0, .25);
+}
+
+.pestanas-marca {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  background: var(--dorado);
+  border-radius: 1px;
+  transition: transform .26s var(--ease-out);
+}
+
+.pestanas[data-modo="registro"] .pestanas-marca {
+  transform: translateX(100%);
+}
+
+.pestanas button {
+  position: relative;
+  z-index: 1;
+  padding: 11px 8px;
+  background: none;
+  border: 0;
+  font: 600 .78rem 'Archivo', Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--texto-suave);
+  cursor: pointer;
+  transition: color .2s;
+}
+
+.pestanas button[aria-selected="true"] {
+  color: var(--negro);
+}
+
+/* CAMPOS */
+
+#formAcceso {
+  gap: 0;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-bottom: 6px;
+}
+
+.campo label {
+  margin-top: 0;
+}
+
+.acceso input {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid #55534E;
+  border-radius: 2px;
+  background: #121416;
+  color: var(--plata);
+  font: 400 1rem 'Archivo', Arial, sans-serif; /* 16px: evita zoom en iOS */
+  transition: border-color .2s, background-color .2s;
+}
+
+.acceso input::placeholder {
+  color: #77756F;
+  opacity: 1;
+}
+
+.acceso input:focus {
+  outline: none;
+  border-color: var(--dorado);
+  background: #16181a;
+  box-shadow: 0 0 0 3px rgba(194, 161, 106, .18);
+}
+
+.acceso input[aria-invalid="true"] {
+  border-color: #D98A6C;
+}
+
+.clave {
+  position: relative;
+}
+
+.clave input {
+  padding-right: 50px;
+}
+
+.ver-clave {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  transform: translateY(-50%);
+  background: none;
+  border: 0;
+  color: #8A8880;
+  cursor: pointer;
+  transition: color .2s;
+}
+
+.ver-clave svg {
+  grid-area: 1 / 1;
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ver-clave .ojo-tachado,
+.ver-clave[aria-pressed="true"] .ojo {
+  display: none;
+}
+
+.ver-clave[aria-pressed="true"] .ojo-tachado {
+  display: block;
+}
+
+.pista {
+  font-size: .8rem;
+  color: #8A8880;
+  display: none;
+}
+
+.acceso[data-modo="registro"] .pista {
+  display: block;
+}
+
+.acceso .error {
+  min-height: 1.4em;
+  font-size: .82rem;
+  font-weight: 600;
+  color: #E8A488;
+}
+
+.pista + .error:empty {
+  min-height: 0;
+}
+
+/* Campo "confirmar": se despliega en modo registro */
+
+.campo-extra {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows .28s var(--ease-out), opacity .2s ease;
+}
+
+.campo-extra > .campo {
+  min-height: 0;
+  overflow: hidden;
+  /* Deja espacio para el anillo de foco dentro del recorte */
+  margin: 0 -4px;
+  padding: 0 4px 6px;
+}
+
+.acceso[data-modo="registro"] .campo-extra {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.sin-transicion * {
+  transition: none !important;
+}
+
+/* AVISO GENERAL (errores del servidor) */
+
+.aviso {
+  display: none;
+  margin: 4px 0 6px;
+  padding: 11px 14px;
+  border-left: 3px solid #D98A6C;
+  background: rgba(217, 138, 108, .1);
+  color: #F0C2AE;
+  font-size: .9rem;
+}
+
+.aviso.visible {
+  display: block;
+  animation: aviso-entrada .22s var(--ease-out);
+}
+
+.aviso.exito {
+  border-left-color: var(--dorado);
+  background: rgba(194, 161, 106, .12);
+  color: var(--plata);
+}
+
+@keyframes aviso-entrada {
+  from { opacity: 0; transform: translateY(-4px); }
+}
+
+/* BOTÓN ENVIAR con estado de carga */
+
+.enviar {
+  position: relative;
+  width: 100%;
+  margin-top: 10px;
+  padding: 15px 25px;
+  box-shadow: none;
+}
+
+.enviar:active {
+  transform: scale(.98);
+  transition-duration: .1s;
+}
+
+.enviar-texto {
+  transition: opacity .15s, filter .15s;
+}
+
+.giro {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity .15s;
+}
+
+.enviar.cargando {
+  pointer-events: none;
+}
+
+.enviar.cargando .enviar-texto {
+  opacity: 0;
+  filter: blur(2px);
+}
+
+.enviar.cargando .giro {
+  opacity: 1;
+  animation: giro .6s linear infinite;
+}
+
+@keyframes giro {
+  to { transform: rotate(360deg); }
+}
+
+/* Enlace inferior para cambiar de modo */
+
+.cambiar {
+  margin: 22px 0 0;
+  text-align: center;
+  font-size: .9rem;
+  color: var(--texto-suave);
+}
+
+.cambiar button {
+  padding: 4px 2px;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--borde);
+  font: 600 .9rem 'Archivo', Arial, sans-serif;
+  color: var(--dorado);
+  cursor: pointer;
+  transition: border-color .2s;
+}
+
+/* HOVER solo en dispositivos con puntero */
+
+@media (hover: hover) and (pointer: fine) {
+  .volver:hover { color: var(--dorado); }
+  .pestanas button[aria-selected="false"]:hover { color: var(--plata); }
+  .ver-clave:hover { color: var(--plata); }
+  .cambiar button:hover { border-color: var(--dorado); }
+  .acceso input:not(:focus):hover { border-color: #77756F; }
+}
+
+/* MÓVIL: la foto se vuelve una franja arriba */
+
+@media (max-width: 860px) {
+  .acceso {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  .acceso-escena {
+    min-height: 200px;
+    padding: 22px 24px 26px;
+    border-right: 0;
+    border-bottom: 1px solid var(--borde);
+    background-position: center 45%;
+  }
+
+  .acceso-escena .logo {
+    font-size: 1.35rem;
+  }
+
+  .acceso-texto,
+  .acceso-linea {
+    display: none;
+  }
+
+  .acceso-titulo {
+    margin: 0;
+    font-size: 2.6rem;
+  }
+
+  .acceso-panel {
+    justify-content: flex-start;
+    padding: 64px 22px 40px;
+  }
+
+  .volver {
+    top: 20px;
+    left: 22px;
+  }
+}
+
+/* MOVIMIENTO REDUCIDO: sin desplazamientos, solo opacidad */
+
+@media (prefers-reduced-motion: reduce) {
+  .acceso-caja {
+    animation: fade .3s ease both;
+  }
+
+  .aviso.visible {
+    animation: none;
+  }
+
+  .pestanas-marca,
+  .campo-extra {
+    transition: opacity .2s ease;
+  }
+
+  .enviar:active {
+    transform: none;
+  }
+
+  .enviar.cargando .giro {
+    animation-duration: 1.5s;
+  }
+}
+
+@keyframes fade {
+  from { opacity: 0; }
+}
