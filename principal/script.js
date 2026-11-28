@@ -337,6 +337,7 @@ document.addEventListener("keydown", e => { if (e.key === "Escape") cerrarMenu()
     const nombre = admin ? "David" : datos.usuario;
     document.getElementById("sesionInicial").textContent = nombre.charAt(0).toUpperCase();
     document.getElementById("sesionTexto").textContent = admin ? "¡Hola David!" : `Hola, ${nombre}`;
+    document.getElementById("sesionPanel").hidden = !admin;
     document.getElementById("sesion").hidden = false;
     document.querySelector(".link-acceso").hidden = true;
   } catch {

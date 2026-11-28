@@ -1,0 +1,105 @@
+/* Panel de administración. Usa los colores y estilos base de principal/style.css */
+
+.panel-acciones {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: .86rem;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+}
+
+.panel { padding-top: 40px; padding-bottom: 60px; }
+
+.panel h1 { font-size: clamp(2.4rem, 7vw, 3.8rem); }
+
+.panel-titulo p { margin: 8px 0 0; color: var(--texto-suave); }
+
+.panel-titulo .panel-nota {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 6px 12px;
+  border: 1px dashed var(--dorado);
+  color: var(--dorado);
+  font-size: .85rem;
+}
+
+.resumen {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin: 32px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.resumen a {
+  display: block;
+  height: 100%;
+  padding: 20px;
+  background: var(--grafito);
+  border: 1px solid var(--borde);
+  text-decoration: none;
+  transition: border-color .2s;
+}
+
+.resumen a:hover { border-color: var(--dorado); }
+
+.resumen b {
+  display: block;
+  font-family: 'Big Shoulders Display', Impact, sans-serif;
+  font-size: 2.8rem;
+  line-height: 1;
+  color: var(--dorado);
+}
+
+.resumen span { font-size: .9rem; color: var(--texto-suave); }
+
+.panel section { padding: 48px 0 0; }
+
+.panel h2 { font-size: 2rem; }
+
+/* En pantallas angostas la tabla se desplaza sin ensanchar la página */
+.tabla { overflow-x: auto; border: 1px solid var(--borde); }
+
+.panel table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .92rem;
+}
+
+.panel th,
+.panel td {
+  padding: 12px 16px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.panel th {
+  background: var(--grafito);
+  color: var(--dorado);
+  font-size: .76rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.panel td { border-top: 1px solid rgba(243, 239, 230, .12); }
+
+.estado {
+  display: inline-block;
+  padding: 2px 10px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: .76rem;
+  font-weight: 600;
+}
+
+.estado.bien   { color: #9FD0A0; }
+.estado.alerta { color: #F0C36A; }
+.estado.mal    { color: #F29B8F; }
+
+@media (max-width: 760px) {
+  .resumen { grid-template-columns: 1fr 1fr; }
+  nav .logo { font-size: 1.25rem; }
+  .panel-acciones > a { display: none; }
+}

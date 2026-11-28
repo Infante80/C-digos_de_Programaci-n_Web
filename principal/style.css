@@ -1122,6 +1122,16 @@ html.visor-abierto {
   cursor: wait;
 }
 
+.sesion-panel {
+  flex: none;
+  color: var(--dorado);
+  font-size: .78rem;
+}
+
+.sesion-panel[hidden] {
+  display: none;
+}
+
 /* ACCESIBILIDAD: MOVIMIENTO REDUCIDO */
 
 @media (prefers-reduced-motion: reduce) {

@@ -151,8 +151,9 @@ try {
     $_SESSION['usuario']    = $usuario;
     $_SESSION['rol']        = $rol;
 
-    // Por ahora todos regresan al inicio; el panel de administrador se agregará después
-    responder(200, ['ok' => true, 'rol' => $rol, 'redirigir' => '../index.html']);
+    // El administrador entra a su panel; los demás regresan al inicio
+    $destino = $rol === 'admin' ? '../admin/panel.php' : '../index.html';
+    responder(200, ['ok' => true, 'rol' => $rol, 'redirigir' => $destino]);
 } catch (Throwable $e) {
     error_log('auth.php: ' . $e->getMessage());
     responder(500, ['ok' => false, 'mensaje' => 'No se pudo procesar la solicitud.']);
