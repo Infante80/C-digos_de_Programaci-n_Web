@@ -343,3 +343,17 @@ document.addEventListener("keydown", e => { if (e.key === "Escape") cerrarMenu()
     // Sin respuesta del servidor la página se queda como visitante
   }
 })();
+
+// Cerrar sesión
+const botonSalir = document.getElementById("sesionSalir");
+botonSalir.addEventListener("click", async () => {
+  botonSalir.disabled = true;
+  try {
+    const resp = await fetch("sesion.php", { method: "POST" });
+    if (!resp.ok) throw new Error("Error del servidor");
+    location.reload();
+  } catch {
+    botonSalir.disabled = false;
+    botonSalir.textContent = "Reintentar";
+  }
+});

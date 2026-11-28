@@ -1069,7 +1069,7 @@ html.visor-abierto {
   align-items: center;
   gap: 10px;
   max-width: calc(100vw - 32px);
-  padding: 8px 16px 8px 8px;
+  padding: 8px;
   background: rgba(25, 26, 28, .97);
   border: 1px solid var(--dorado);
   border-radius: 999px;
@@ -1098,6 +1098,28 @@ html.visor-abierto {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.sesion-salir {
+  flex: none;
+  padding: 7px 14px;
+  background: transparent;
+  color: var(--dorado);
+  border: 1px solid var(--borde);
+  border-radius: 999px;
+  font: 600 .78rem 'Archivo', Arial, sans-serif;
+  cursor: pointer;
+  transition: background-color .2s, color .2s;
+}
+
+.sesion-salir:hover {
+  background: var(--dorado);
+  color: var(--negro);
+}
+
+.sesion-salir:disabled {
+  opacity: .5;
+  cursor: wait;
 }
 
 /* ACCESIBILIDAD: MOVIMIENTO REDUCIDO */
