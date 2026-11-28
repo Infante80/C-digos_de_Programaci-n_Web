@@ -11,3 +11,16 @@ CREATE TABLE IF NOT EXISTS usuarios (
 
 -- Para volver administrador a un usuario ya registrado:
 -- UPDATE usuarios SET rol = 'admin' WHERE usuario = 'nombre_de_usuario';
+
+-- Intentos fallidos de inicio de sesión (bloqueo de 45 minutos)
+CREATE TABLE IF NOT EXISTS intentos_login (
+    usuario          VARCHAR(30)  NOT NULL,
+    ip               VARCHAR(45)  NOT NULL,
+    fallos           INT UNSIGNED NOT NULL DEFAULT 0,
+    ultimo_fallo     DATETIME     NULL,
+    bloqueado_hasta  DATETIME     NULL,
+    PRIMARY KEY (usuario, ip)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Para desbloquear a alguien antes de tiempo:
+-- DELETE FROM intentos_login WHERE usuario = 'nombre_de_usuario';

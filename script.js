@@ -325,3 +325,21 @@ menuLinks.querySelectorAll("a, button").forEach(el => el.addEventListener("click
 
 // Escape también lo cierra
 document.addEventListener("keydown", e => { if (e.key === "Escape") cerrarMenu(); });
+
+// Usuario con sesión iniciada: se muestra en la esquina
+(async () => {
+  try {
+    const resp = await fetch("sesion.php", { cache: "no-store" });
+    const datos = await resp.json();
+    if (!resp.ok || !datos.logueado) return;
+
+    const admin = datos.rol === "admin";
+    const nombre = admin ? "David" : datos.usuario;
+    document.getElementById("sesionInicial").textContent = nombre.charAt(0).toUpperCase();
+    document.getElementById("sesionTexto").textContent = admin ? "¡Hola David!" : `Hola, ${nombre}`;
+    document.getElementById("sesion").hidden = false;
+    document.querySelector(".link-acceso").hidden = true;
+  } catch {
+    // Sin respuesta del servidor la página se queda como visitante
+  }
+})();

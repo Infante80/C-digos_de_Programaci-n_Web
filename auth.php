@@ -3,6 +3,10 @@
 // Recibe POST con: accion ("login" | "registro"), usuario, password[, confirmar]
 header('Content-Type: application/json; charset=utf-8');
 
+// Se permiten 3 intentos erróneos; al pasar de 3 (el 4.º) se bloquea
+const MAX_FALLOS      = 3;
+const MINUTOS_BLOQUEO = 45;
+
 session_set_cookie_params([
     'httponly' => true,
     'samesite' => 'Lax',
@@ -79,16 +83,66 @@ try {
         $id  = (int) $pdo->lastInsertId();
         $rol = 'cliente';
     } else {
-        $stmt = $pdo->prepare('SELECT id, password_hash, rol FROM usuarios WHERE usuario = :usuario');
+        // Ningún usuario real pasa de 30 caracteres
+        if (mb_strlen($usuario, 'UTF-8') > 30) {
+            responder(401, ['ok' => false, 'mensaje' => 'Usuario o contraseña incorrectos.']);
+        }
+
+        // Los intentos se cuentan por usuario + IP, en la BD (borrar cookies no los reinicia)
+        $clave = [':usuario' => $usuario, ':ip' => $_SERVER['REMOTE_ADDR']];
+
+        // La fila queda bloqueada hasta el commit: peticiones simultáneas no se saltan el límite
+        $pdo->beginTransaction();
+        $pdo->prepare(
+            'INSERT INTO intentos_login (usuario, ip) VALUES (:usuario, :ip)
+             ON DUPLICATE KEY UPDATE fallos = fallos'
+        )->execute($clave);
+
+        $stmt = $pdo->prepare(
+            'SELECT fallos,
+                    TIMESTAMPDIFF(SECOND, NOW(), bloqueado_hasta) AS restante,
+                    ultimo_fallo < NOW() - INTERVAL ' . MINUTOS_BLOQUEO . ' MINUTE AS vencido
+             FROM intentos_login WHERE usuario = :usuario AND ip = :ip FOR UPDATE'
+        );
+        $stmt->execute($clave);
+        $intento = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ((int) $intento['restante'] > 0) {
+            $pdo->commit();
+            $minutos = (int) ceil($intento['restante'] / 60);
+            responder(429, ['ok' => false, 'mensaje' => "Demasiados intentos. Vuelve a intentarlo en $minutos min."]);
+        }
+
+        $stmt = $pdo->prepare('SELECT id, usuario, password_hash, rol FROM usuarios WHERE usuario = :usuario');
         $stmt->execute([':usuario' => $usuario]);
         $fila = $stmt->fetch(PDO::FETCH_ASSOC);
 
         // Mismo mensaje si no existe el usuario o si la contraseña es incorrecta
         if (!$fila || !password_verify($password, $fila['password_hash'])) {
+            // Los fallos de hace más de 45 minutos ya no cuentan
+            $fallos   = $intento['vencido'] ? 1 : $intento['fallos'] + 1;
+            $bloquear = $fallos > MAX_FALLOS;
+            $hasta    = $bloquear ? 'NOW() + INTERVAL ' . MINUTOS_BLOQUEO . ' MINUTE' : 'NULL';
+
+            $pdo->prepare(
+                "UPDATE intentos_login SET fallos = :fallos, ultimo_fallo = NOW(), bloqueado_hasta = $hasta
+                 WHERE usuario = :usuario AND ip = :ip"
+            )->execute($clave + [':fallos' => $bloquear ? 0 : $fallos]);
+            $pdo->commit();
+
+            if ($bloquear) {
+                responder(429, ['ok' => false, 'mensaje' => 'Demasiados intentos. Vuelve a intentarlo en ' . MINUTOS_BLOQUEO . ' min.']);
+            }
             responder(401, ['ok' => false, 'mensaje' => 'Usuario o contraseña incorrectos.']);
         }
-        $id  = (int) $fila['id'];
-        $rol = $fila['rol'];
+
+        // Acceso correcto: se borra el historial de fallos
+        $pdo->prepare('DELETE FROM intentos_login WHERE usuario = :usuario AND ip = :ip')->execute($clave);
+        $pdo->commit();
+
+        $id      = (int) $fila['id'];
+        $usuario = $fila['usuario']; // como se registró, no como se tecleó
+        $rol     = $fila['rol'];
     }
 
     // Nueva sesión para evitar fijación de sesión

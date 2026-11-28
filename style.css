@@ -1058,6 +1058,48 @@ html.visor-abierto {
   }
 }
 
+/* USUARIO CON SESIÓN INICIADA */
+
+.sesion {
+  position: fixed;
+  right: calc(16px + env(safe-area-inset-right, 0px));
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: calc(100vw - 32px);
+  padding: 8px 16px 8px 8px;
+  background: rgba(25, 26, 28, .97);
+  border: 1px solid var(--dorado);
+  border-radius: 999px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .35);
+  font-size: .88rem;
+  font-weight: 600;
+}
+
+.sesion[hidden],
+.links a.link-acceso[hidden] {
+  display: none;
+}
+
+.sesion-inicial {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--dorado);
+  color: var(--negro);
+}
+
+.sesion-texto {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* ACCESIBILIDAD: MOVIMIENTO REDUCIDO */
 
 @media (prefers-reduced-motion: reduce) {
