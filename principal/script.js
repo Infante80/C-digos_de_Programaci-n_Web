@@ -267,9 +267,10 @@ function mostrarError(id,msg){document.getElementById(id).textContent=msg;return
 const reglas={
   nombre:v=>!v?"El nombre es obligatorio.":!/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ'\s]{2,50}$/.test(v)?"El nombre solo debe contener letras y espacios.":"",
   email:v=>!v?"El correo es obligatorio.":!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(v)?"Ingresa un correo electrónico válido.":"",
+  telefono:v=>!v?"El teléfono es obligatorio.":!/^[0-9\s()-]+$/.test(v)||v.replace(/\D/g,"").length!==10?"Ingresa un teléfono de 10 dígitos.":"",
   mensaje:v=>!v?"El mensaje es obligatorio.":(v.length<10||v.length>500)?"El mensaje debe tener entre 10 y 500 caracteres.":""
 };
-const ids={nombre:"errorNombre",email:"errorEmail",mensaje:"errorMensaje"};
+const ids={nombre:"errorNombre",email:"errorEmail",telefono:"errorTelefono",mensaje:"errorMensaje"};
 function validar(c){return mostrarError(ids[c],reglas[c](document.getElementById(c).value.trim()))}
 Object.keys(reglas).forEach(c=>document.getElementById(c).addEventListener("blur",()=>validar(c)));
 

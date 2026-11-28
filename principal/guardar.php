@@ -14,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $nombre  = trim($_POST['nombre']  ?? '');
 $correo  = trim($_POST['email']   ?? '');
 $mensaje = trim($_POST['mensaje'] ?? '');
+$telefono = trim($_POST['telefono'] ?? '');
 
 // Validación en el servidor (misma lógica que el JS, pero esta es la que cuenta)
 $errores = [];
@@ -28,6 +29,14 @@ if ($correo === '') {
     $errores['email'] = 'El correo es obligatorio.';
 } elseif (strlen($correo) > 150 || !filter_var($correo, FILTER_VALIDATE_EMAIL)) {
     $errores['email'] = 'Ingresa un correo electrónico válido.';
+}
+
+// Se aceptan espacios, guiones y paréntesis; en la BD solo se guardan los dígitos
+$digitos = preg_replace('/\D/', '', $telefono);
+if ($telefono === '') {
+    $errores['telefono'] = 'El teléfono es obligatorio.';
+} elseif (!preg_match('/^[0-9\s()-]+$/', $telefono) || strlen($digitos) !== 10) {
+    $errores['telefono'] = 'Ingresa un teléfono de 10 dígitos.';
 }
 
 $largo = mb_strlen($mensaje, 'UTF-8');
@@ -55,11 +64,13 @@ try {
     );
 
     $stmt = $pdo->prepare(
-        'INSERT INTO cotizaciones (nombre, correo, mensaje) VALUES (:nombre, :correo, :mensaje)'
+        'INSERT INTO cotizaciones (nombre, correo, telefono, mensaje)
+         VALUES (:nombre, :correo, :telefono, :mensaje)'
     );
     $stmt->execute([
         ':nombre'  => $nombre,
         ':correo'  => $correo,
+        ':telefono' => $digitos,
         ':mensaje' => $mensaje,
     ]);
 

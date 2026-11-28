@@ -20,46 +20,56 @@ if (($_SESSION['rol'] ?? '') !== 'admin') {
     exit;
 }
 
+// "Hoy" según la hora de Jalisco; sin esto PHP puede usar UTC y adelantar un día
+date_default_timezone_set('America/Mexico_City');
+
 require __DIR__ . '/datos.php';
 
 // Escapa texto antes de ponerlo en el HTML
-function e(string $texto): string {
-    return htmlspecialchars($texto, ENT_QUOTES, 'UTF-8');
+function e(?string $texto): string {
+    return htmlspecialchars($texto ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
-function fecha(DateTimeImmutable $f): string {
-    return $f->format('d/m/Y');
+// Recibe una fecha de la BD ("2026-01-31") o "today"
+function fecha(?string $f): string {
+    return $f === null ? '—' : (new DateTimeImmutable($f))->format('d/m/Y');
+}
+
+// 12.00 se muestra como 12; 2.50 como 2.5
+function numero(string $n): string {
+    return (string) (float) $n;
+}
+
+// Fila que se muestra cuando una tabla no tiene registros
+function vacia(array $filas, int $columnas): string {
+    return $filas ? '' : '<tr><td colspan="' . $columnas . '">Sin registros.</td></tr>';
 }
 
 // Días desde hoy hasta la fecha (negativo si ya pasó)
-function diasPara(DateTimeImmutable $f): int {
-    return (int) (new DateTimeImmutable('today'))->diff($f)->format('%r%a');
+function diasPara(string $f): int {
+    return (int) (new DateTimeImmutable('today'))->diff(new DateTimeImmutable($f))->format('%r%a');
 }
 
 function etiqueta(string $tipo, string $texto): string {
     return '<span class="estado ' . $tipo . '">' . e($texto) . '</span>';
 }
 
-function estadoEntrega(DateTimeImmutable $f): string {
+function estadoEntrega(string $f): string {
     $d = diasPara($f);
     if ($d < 0)  return etiqueta('mal', 'Atrasado');
     if ($d <= 7) return etiqueta('alerta', $d === 0 ? 'Hoy' : "En $d " . ($d === 1 ? 'día' : 'días'));
     return etiqueta('bien', 'En tiempo');
 }
 
-function estadoGarantia(DateTimeImmutable $fin): string {
+function estadoGarantia(string $fin): string {
     $d = diasPara($fin);
     if ($d < 0)   return etiqueta('mal', 'Vencida');
     if ($d <= 30) return etiqueta('alerta', 'Por vencer');
     return etiqueta('bien', 'Vigente');
 }
 
-// Primero lo más urgente
-usort($entregas, fn($a, $b) => $a['entrega'] <=> $b['entrega']);
-usort($garantias, fn($a, $b) => $a['fin'] <=> $b['fin']);
-
-$entregasSemana  = count(array_filter($entregas, fn($t) => diasPara($t['entrega']) <= 7));
-$porVencer       = count(array_filter($garantias, fn($g) => diasPara($g['fin']) >= 0 && diasPara($g['fin']) <= 30));
+$entregasSemana  = count(array_filter($entregas, fn($t) => diasPara($t['fecha_entrega']) <= 7));
+$porVencer       = count(array_filter($garantias, fn($g) => diasPara($g['garantia_hasta']) >= 0 && diasPara($g['garantia_hasta']) <= 30));
 $materialesBajos = count(array_filter($materiales, fn($m) => $m['cantidad'] <= $m['minimo']));
 ?>
 <!DOCTYPE html>
@@ -91,8 +101,10 @@ $materialesBajos = count(array_filter($materiales, fn($m) => $m['cantidad'] <= $
     <main class="wrap panel">
         <header class="panel-titulo">
             <h1>¡Hola David!</h1>
-            <p>Resumen del taller al <?= fecha(new DateTimeImmutable('today')) ?>.</p>
-            <p class="panel-nota">Los datos mostrados son de ejemplo. Aún no vienen de la base de datos.</p>
+            <p>Resumen del taller al <?= fecha('today') ?>.</p>
+            <?php if ($errorDatos): ?>
+                <p class="panel-nota" role="alert">No se pudo leer la base de datos. Las tablas pueden aparecer incompletas.</p>
+            <?php endif; ?>
         </header>
 
         <ul class="resumen">
@@ -106,13 +118,16 @@ $materialesBajos = count(array_filter($materiales, fn($m) => $m['cantidad'] <= $
             <h2>Por cotizar</h2>
             <div class="tabla">
                 <table>
-                    <thead><tr><th>Cliente</th><th>Trabajo</th><th>Solicitado</th></tr></thead>
+                    <thead><tr><th>Recibida</th><th>Cliente</th><th>Teléfono</th><th>Correo</th><th>Mensaje</th></tr></thead>
                     <tbody>
+                    <?= vacia($cotizaciones, 5) ?>
                     <?php foreach ($cotizaciones as $c): ?>
                         <tr>
-                            <td><?= e($c['cliente']) ?></td>
-                            <td><?= e($c['trabajo']) ?></td>
-                            <td><?= fecha($c['solicitado']) ?></td>
+                            <td><?= fecha($c['recibida_en']) ?></td>
+                            <td><?= e($c['nombre']) ?></td>
+                            <td><?= $c['telefono'] ? '<a href="tel:' . e($c['telefono']) . '">' . e($c['telefono']) . '</a>' : '—' ?></td>
+                            <td><a href="mailto:<?= e($c['correo']) ?>"><?= e($c['correo']) ?></a></td>
+                            <td class="mensaje"><?= e($c['mensaje']) ?></td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>
@@ -126,12 +141,13 @@ $materialesBajos = count(array_filter($materiales, fn($m) => $m['cantidad'] <= $
                 <table>
                     <thead><tr><th>Cliente</th><th>Trabajo</th><th>Fecha de entrega</th><th>Estado</th></tr></thead>
                     <tbody>
+                    <?= vacia($entregas, 4) ?>
                     <?php foreach ($entregas as $t): ?>
                         <tr>
                             <td><?= e($t['cliente']) ?></td>
                             <td><?= e($t['trabajo']) ?></td>
-                            <td><?= fecha($t['entrega']) ?></td>
-                            <td><?= estadoEntrega($t['entrega']) ?></td>
+                            <td><?= fecha($t['fecha_entrega']) ?></td>
+                            <td><?= estadoEntrega($t['fecha_entrega']) ?></td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>
@@ -145,13 +161,14 @@ $materialesBajos = count(array_filter($materiales, fn($m) => $m['cantidad'] <= $
                 <table>
                     <thead><tr><th>Cliente</th><th>Trabajo</th><th>Entregado</th><th>Garantía hasta</th><th>Estado</th></tr></thead>
                     <tbody>
+                    <?= vacia($garantias, 5) ?>
                     <?php foreach ($garantias as $g): ?>
                         <tr>
                             <td><?= e($g['cliente']) ?></td>
                             <td><?= e($g['trabajo']) ?></td>
-                            <td><?= fecha($g['entregado']) ?></td>
-                            <td><?= fecha($g['fin']) ?></td>
-                            <td><?= estadoGarantia($g['fin']) ?></td>
+                            <td><?= fecha($g['entregado_en']) ?></td>
+                            <td><?= fecha($g['garantia_hasta']) ?></td>
+                            <td><?= estadoGarantia($g['garantia_hasta']) ?></td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>
@@ -165,11 +182,12 @@ $materialesBajos = count(array_filter($materiales, fn($m) => $m['cantidad'] <= $
                 <table>
                     <thead><tr><th>Material</th><th>Existencia</th><th>Mínimo</th><th>Estado</th></tr></thead>
                     <tbody>
+                    <?= vacia($materiales, 4) ?>
                     <?php foreach ($materiales as $m): ?>
                         <tr>
                             <td><?= e($m['nombre']) ?></td>
-                            <td><?= $m['cantidad'] ?> <?= e($m['unidad']) ?></td>
-                            <td><?= $m['minimo'] ?> <?= e($m['unidad']) ?></td>
+                            <td><?= numero($m['cantidad']) ?> <?= e($m['unidad']) ?></td>
+                            <td><?= numero($m['minimo']) ?> <?= e($m['unidad']) ?></td>
                             <td><?= $m['cantidad'] <= $m['minimo'] ? etiqueta('mal', 'Reponer') : etiqueta('bien', 'Suficiente') ?></td>
                         </tr>
                     <?php endforeach; ?>

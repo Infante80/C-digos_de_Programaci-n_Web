@@ -85,6 +85,13 @@
 
 .panel td { border-top: 1px solid rgba(243, 239, 230, .12); }
 
+/* El mensaje del cliente sí puede ocupar varios renglones */
+.panel td.mensaje {
+  min-width: 260px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
 .estado {
   display: inline-block;
   padding: 2px 10px;
