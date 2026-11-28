@@ -21,7 +21,7 @@
   background-color: #121416;
   background-image:
     linear-gradient(180deg, rgba(18,20,22,.55) 0%, rgba(18,20,22,.35) 40%, rgba(18,20,22,.94) 100%),
-    url("img/imgFondoPP.jpg");
+    url("../img/imgFondoPP.jpg");
   background-size: cover;
   background-position: center 35%;
   border-right: 1px solid var(--borde);

@@ -163,7 +163,7 @@ form.addEventListener("submit", async e => {
       mostrarAviso(modo === "registro"
         ? `Cuenta creada. Bienvenido, ${nombre}.`
         : `Bienvenido, ${nombre}.`, "exito");
-      setTimeout(() => { location.href = datos.redirigir || "index.html"; }, 900);
+      setTimeout(() => { location.href = datos.redirigir || "../index.html"; }, 900);
       return; // deja el botón en carga hasta redirigir
     }
 

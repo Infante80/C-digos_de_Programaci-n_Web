@@ -282,7 +282,7 @@ form.addEventListener("submit", async e => {
   const boton = form.querySelector('button[type="submit"]');
   boton.disabled = true;
   try {
-    const resp = await fetch("guardar.php", { method: "POST", body: new FormData(form) });
+    const resp = await fetch("principal/guardar.php", { method: "POST", body: new FormData(form) });
     const datos = await resp.json();
     if (resp.ok && datos.ok) {
       form.reset();
@@ -329,7 +329,7 @@ document.addEventListener("keydown", e => { if (e.key === "Escape") cerrarMenu()
 // Usuario con sesión iniciada: se muestra en la esquina
 (async () => {
   try {
-    const resp = await fetch("sesion.php", { cache: "no-store" });
+    const resp = await fetch("login/sesion.php", { cache: "no-store" });
     const datos = await resp.json();
     if (!resp.ok || !datos.logueado) return;
 
@@ -349,7 +349,7 @@ const botonSalir = document.getElementById("sesionSalir");
 botonSalir.addEventListener("click", async () => {
   botonSalir.disabled = true;
   try {
-    const resp = await fetch("sesion.php", { method: "POST" });
+    const resp = await fetch("login/sesion.php", { method: "POST" });
     if (!resp.ok) throw new Error("Error del servidor");
     location.reload();
   } catch {
